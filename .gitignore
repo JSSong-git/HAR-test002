@@ -1,0 +1,16 @@
+node_modules
+dist
+coverage
+.DS_Store
+*.local
+.turbo
+playwright-report
+test-results
+.vite
+*.tsbuildinfo
+.env
+.env.*
+packages/web/dist
+packages/cli/dist
+packages/core/dist
+packages/chrome-ext/dist

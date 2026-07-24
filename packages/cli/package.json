@@ -1,0 +1,23 @@
+{
+  "name": "@har-analyzer/cli",
+  "version": "0.2.0",
+  "private": true,
+  "bin": {
+    "har-analyzer": "./dist/cli.cjs"
+  },
+  "scripts": {
+    "build": "node ./build.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node -e \"process.exit(0)\"",
+    "start": "node dist/cli.cjs"
+  },
+  "dependencies": {
+    "@har-analyzer/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "esbuild": "^0.25.4",
+    "typescript": "^5",
+    "vitest": "^4.1.10"
+  }
+}

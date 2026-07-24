@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "HAR Performance Analyzer (TEST002)",
+  "version": "0.2.0",
+  "description": "Fact-Only HAR analysis DevTools panel MVP",
+  "devtools_page": "devtools.html",
+  "permissions": [],
+  "host_permissions": []
+}

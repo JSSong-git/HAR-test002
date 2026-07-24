@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>HAR Analyzer Panel</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 1rem;
+        color: #1c1917;
+      }
+      textarea {
+        width: 100%;
+        min-height: 120px;
+      }
+      pre {
+        background: #f5f5f4;
+        padding: 0.75rem;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>HAR Analyzer (MVP)</h1>
+    <p>
+      HAR JSON을 붙여넣으면 요약 불릿을 표시합니다. 전체 UI는 웹 앱을 사용하세요.
+    </p>
+    <textarea id="har" placeholder="{ &quot;log&quot;: ... }"></textarea>
+    <p>
+      <button id="run">분석</button>
+    </p>
+    <pre id="out">대기 중</pre>
+    <script type="module" src="./panel.js"></script>
+  </body>
+</html>

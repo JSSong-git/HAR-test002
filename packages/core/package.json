@@ -1,0 +1,30 @@
+{
+  "name": "@har-analyzer/core",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@types/har-format": "^1.2.16"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "happy-dom": "^20.10.6",
+    "typescript": "^5",
+    "vitest": "^4.1.10"
+  }
+}

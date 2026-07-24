@@ -1,0 +1,34 @@
+{
+  "pageId": "page_1_0_1",
+  "pages": [
+    { "id": "page_1_0_1", "onLoad": 15911, "onContentLoad": -1 },
+    { "id": "page_2_0_1", "onLoad": 15512, "onContentLoad": -1 },
+    { "id": "page_3_0_1", "onLoad": 15474, "onContentLoad": -1 }
+  ],
+  "runEntryCount": 78,
+  "document": {
+    "url": "https://www.sobang.kr/index.sobang",
+    "transferSize": 81875,
+    "timings": {
+      "dns": 64,
+      "connect": 93,
+      "ssl": 61,
+      "send": 0,
+      "wait": 3733,
+      "receive": 142
+    }
+  },
+  "protocol": { "http/1.1": 78 },
+  "topTransfer": [
+    { "fileName": "171773721201351.mp4", "transferSize": 1580472 },
+    { "fileName": "178158517911209.jpg", "transferSize": 831270 },
+    { "fileName": "SCDream7.woff", "transferSize": 366180 }
+  ],
+  "fontTotalBytes": 2020164,
+  "fontCount": 6,
+  "bottlenecks": {
+    "SCDream7.woff": { "time": 5271, "wait": 658, "receive": 4613 },
+    "178158517911209.jpg": { "time": 5713, "wait": 560, "receive": 5153 },
+    "171773721201351.mp4": { "time": 3530, "wait": 321, "receive": 3209 }
+  }
+}

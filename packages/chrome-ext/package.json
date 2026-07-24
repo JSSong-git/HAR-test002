@@ -1,0 +1,17 @@
+{
+  "name": "@har-analyzer/chrome-ext",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node ./build.mjs",
+    "typecheck": "node -e \"process.exit(0)\"",
+    "test": "node -e \"console.log('chrome-ext: manual load dist/'); process.exit(0)\""
+  },
+  "dependencies": {
+    "@har-analyzer/core": "workspace:*"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.4"
+  }
+}
