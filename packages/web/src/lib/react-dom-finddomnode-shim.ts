@@ -48,6 +48,9 @@ export function findDOMNode(
 
 function patch(target: AnyRec | null | undefined) {
   if (!target || typeof target !== "object") return;
+  if (typeof (target as { findDOMNode?: unknown }).findDOMNode === "function") {
+    return;
+  }
   try {
     Object.defineProperty(target, "findDOMNode", {
       configurable: true,
@@ -55,24 +58,19 @@ function patch(target: AnyRec | null | undefined) {
       enumerable: true,
       value: findDOMNode,
     });
+    return;
   } catch {
+    /* frozen / non-extensible module namespace */
+  }
+  try {
     (target as { findDOMNode?: typeof findDOMNode }).findDOMNode = findDOMNode;
+  } catch {
+    /* ignore — Vite CJS plugin still patches react-dom bundles */
   }
 }
 
 const mod = ReactDOM as unknown as AnyRec;
 patch(mod);
 patch(mod.default as AnyRec | undefined);
-
-// Vite/CJS interop sometimes exposes module.exports as `default` only.
-try {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const req = (globalThis as { require?: (id: string) => AnyRec }).require;
-  if (typeof req === "function") {
-    patch(req("react-dom"));
-  }
-} catch {
-  /* browser ESM — ignore */
-}
 
 export {};

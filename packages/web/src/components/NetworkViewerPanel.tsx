@@ -1,9 +1,35 @@
-import { useMemo } from "react";
+import { useMemo, type ComponentType } from "react";
 import "@/lib/react-dom-finddomnode-shim";
-import { NetworkViewer } from "network-viewer";
+import * as networkViewerNs from "network-viewer";
+import "network-viewer/es6/index.css";
 import { scopeHarToPage } from "@/lib/scope-har";
 import { Card } from "./ui";
 import { ViewerErrorBoundary } from "./ViewerErrorBoundary";
+
+type NetworkViewerProps = {
+  data?: unknown;
+  options?: { showImportHAR?: boolean; showTimeline?: boolean } | null;
+  containerClassName?: string | null;
+};
+
+function resolveNetworkViewer(): ComponentType<NetworkViewerProps> {
+  const ns = networkViewerNs as unknown as {
+    NetworkViewer?: ComponentType<NetworkViewerProps>;
+    default?:
+      | ComponentType<NetworkViewerProps>
+      | { NetworkViewer?: ComponentType<NetworkViewerProps> };
+  };
+  const fromNamed = ns.NetworkViewer;
+  if (fromNamed) return fromNamed;
+  const d = ns.default;
+  if (d && typeof d === "object" && "NetworkViewer" in d && d.NetworkViewer) {
+    return d.NetworkViewer;
+  }
+  if (typeof d === "function") return d;
+  throw new Error("network-viewer: NetworkViewer export not found");
+}
+
+const NetworkViewer = resolveNetworkViewer();
 
 type Props = {
   harJson: unknown;

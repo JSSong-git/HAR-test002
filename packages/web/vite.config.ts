@@ -72,9 +72,17 @@ export default defineConfig({
       "react",
       "react-dom",
       "network-viewer",
+      "axios",
       "immutable",
       "prop-types",
       "classnames",
+      "classnames/bind",
+      "react-transition-group",
+      "react-window",
+      "react-dropzone",
+      "file-saver",
+      "qs",
+      "recharts",
     ],
   },
   worker: {
@@ -87,7 +95,8 @@ export default defineConfig({
     outDir: "dist",
     sourcemap: true,
     commonjsOptions: {
-      include: [/network-viewer/, /node_modules/],
+      include: [/network-viewer/, /axios/, /node_modules/],
+      transformMixedEsModules: true,
     },
   },
 });

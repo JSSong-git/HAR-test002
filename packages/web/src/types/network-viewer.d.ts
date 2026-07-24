@@ -21,4 +21,11 @@ declare module "network-viewer" {
   };
 
   export const NetworkViewer: ComponentType<NetworkViewerProps>;
+
+  const networkViewer: {
+    NetworkViewer: ComponentType<NetworkViewerProps>;
+  };
+  export default networkViewer;
 }
+
+declare module "network-viewer/es6/index.css";
