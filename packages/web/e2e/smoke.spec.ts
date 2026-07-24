@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const sampleHar = path.resolve(__dirname, "../../../../fixtures/sample.har");
+const sampleHar = path.resolve(__dirname, "../../../fixtures/sample.har");
 
 test("upload HAR and show report", async ({ page }) => {
   await page.goto("/");
