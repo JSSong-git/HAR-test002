@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import "@/lib/react-dom-finddomnode-shim";
 import { NetworkViewer } from "network-viewer";
 import { scopeHarToPage } from "@/lib/scope-har";
 import { Card } from "./ui";
