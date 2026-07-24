@@ -11,6 +11,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    include: ["network-viewer", "immutable", "prop-types", "classnames"],
+  },
   worker: {
     format: "es",
   },
@@ -20,5 +23,8 @@ export default defineConfig({
   build: {
     outDir: "dist",
     sourcemap: true,
+    commonjsOptions: {
+      include: [/network-viewer/, /node_modules/],
+    },
   },
 });

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import {
   diffAnalysisModels,
   renderDiffMarkdown,
@@ -16,9 +16,14 @@ import { ReportExport } from "./ReportExport";
 import { WaterfallView } from "./WaterfallView";
 import { DiffView } from "./DiffView";
 
+const NetworkViewerPanel = lazy(async () => {
+  const m = await import("./NetworkViewerPanel");
+  return { default: m.NetworkViewerPanel };
+});
+
 type Loaded = { fileName: string; text: string; json: unknown };
 
-type Tab = "report" | "export" | "waterfall" | "diff";
+type Tab = "report" | "export" | "waterfall" | "network" | "diff";
 
 export function AnalyzerApp() {
   const [primary, setPrimary] = useState<Loaded | null>(null);
@@ -32,6 +37,11 @@ export function AnalyzerApp() {
   const [tab, setTab] = useState<Tab>("report");
   const [mask, setMask] = useState(true);
   const [stripBody, setStripBody] = useState(true);
+
+  const displayHar = useMemo(() => {
+    if (!primary) return null;
+    return mask ? sanitizeHarForExport(primary.json) : primary.json;
+  }, [primary, mask]);
 
   useEffect(() => {
     if (!primary) {
@@ -151,7 +161,7 @@ export function AnalyzerApp() {
             checked={mask}
             onChange={(e) => setMask(e.target.checked)}
           />
-          민감 헤더/쿠키 마스킹 (표시·워터폴)
+          민감 헤더/쿠키 마스킹 (표시·워터폴·네트워크 뷰어)
         </label>
         <label className="flex items-center gap-2">
           <input
@@ -191,6 +201,7 @@ export function AnalyzerApp() {
                 ["report", "분석 결과"],
                 ["export", "내보내기"],
                 ["waterfall", "요청 시간표"],
+                ["network", "네트워크 뷰어"],
                 ["diff", "비교(Diff)"],
               ] as const
             ).map(([id, label]) => (
@@ -219,6 +230,21 @@ export function AnalyzerApp() {
           )}
           {tab === "waterfall" && (
             <WaterfallView rows={rows} loading={busy} />
+          )}
+          {tab === "network" && displayHar && (
+            <Suspense
+              fallback={
+                <p className="text-sm text-[var(--muted)]">
+                  네트워크 뷰어 불러오는 중…
+                </p>
+              }
+            >
+              <NetworkViewerPanel
+                harJson={displayHar}
+                pageId={model.selectedPageId}
+                masked={mask}
+              />
+            </Suspense>
           )}
           {tab === "diff" && <DiffView diff={diff} markdown={diffMd} />}
         </>
