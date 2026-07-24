@@ -1,8 +1,8 @@
 {
   "name": "har-test002",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
-  "description": "HAR Performance Analyzer — Fact-Only, client-side monorepo (TEST002)",
+  "description": "HAR Performance Analyzer ??Fact-Only, client-side monorepo (TEST002)",
   "scripts": {
     "dev": "pnpm --filter @har-analyzer/web dev",
     "build": "pnpm -r run build",

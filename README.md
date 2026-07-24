@@ -14,6 +14,13 @@ docs/           요구사항·로드맵
 fixtures/       골든 HAR
 ```
 
+## 문서
+
+- [요구사항 정의서](docs/요구사항_정의서.md)
+- [사용자 매뉴얼](docs/사용자_매뉴얼.md)
+- [로드맵](docs/로드맵.md)
+- [CI 성능 예산 예시](docs/CI_성능예산.md)
+
 ## 실행
 
 ```bash
@@ -31,6 +38,8 @@ pnpm --filter @har-analyzer/web dev
 | 1 | v0.2.x | Vite SPA, Worker, 가상화 워터폴, 코어 패키지 |
 | 2 | v0.3.x | Sanitizer, CWV, HTML/Print export, 워터폴 필터, Playwright |
 | 3 | v1.0.x | Diff, CLI 예산, Chrome Extension MVP |
+
+현재 저장소 `main`은 Phase 1–3 기능을 포함합니다 (태그 `v1.0.0`).
 
 ## 원칙
 
