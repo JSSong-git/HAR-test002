@@ -46,6 +46,20 @@ export function renderReportMarkdown(model: AnalysisModel): string {
   }
   lines.push("");
 
+  lines.push("## 1b. Core Web Vitals / WPT 확장");
+  lines.push("");
+  if (model.cwv.hasMeasurement) {
+    for (const m of model.cwv.metrics) {
+      if (m.value.kind === "missing") continue;
+      lines.push(`* **${m.name}**: ${formatMetric(m.value)} (\`${m.path}\`)`);
+    }
+  } else {
+    lines.push(
+      "* 이 HAR 회차에는 LCP/FCP/CLS 등 WPT·Chrome 확장 필드가 없음 (값 생성 없음).",
+    );
+  }
+  lines.push("");
+
   lines.push("## 2. 개별 리소스 통계 및 데이터 전송량 (Payload Analysis)");
   lines.push("");
   lines.push(`* **상세 기준 Run**: ${model.selectedPageId}`);

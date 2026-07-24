@@ -41,6 +41,10 @@ pnpm --filter @har-analyzer/web dev
 
 현재 저장소 `main`은 Phase 1–3 기능을 포함합니다 (태그 `v1.0.0`).
 
+### CWV / WPT 확장 필드
+
+WebPageTest·Chrome HAR은 `_LCP` 단축키뿐 아니라 `_chromeUserTiming.LargestContentfulPaint`, `_chromeUserTiming` 배열 등 여러 형태로 CWV를 남깁니다. 코어는 이들 경로를 모두 읽습니다. **필드가 없는 HAR**(예: 기본 `fixtures/sample.har`)에서는 값을 만들지 않고 「확장 필드 없음」으로 안내합니다.
+
 ## 원칙
 
 - HAR은 서버로 전송하지 않습니다.

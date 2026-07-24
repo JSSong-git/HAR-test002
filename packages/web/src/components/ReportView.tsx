@@ -33,25 +33,42 @@ export function ReportView({ model }: { model: AnalysisModel }) {
 
       <Card>
         <h3 className="font-semibold">Core Web Vitals / WPT 확장</h3>
-        <p className="mt-1 text-xs text-[var(--muted)]">
-          HAR에 `_` 접두사 필드가 있을 때만 수치를 표시합니다. 없으면 측정 안 됨.
-        </p>
-        <table className="mt-3 w-full text-left text-sm">
-          <thead>
-            <tr className="border-b border-[var(--border)]">
-              <th className="py-1">지표</th>
-              <th>값</th>
-            </tr>
-          </thead>
-          <tbody>
-            {model.cwv.metrics.map((m) => (
-              <tr key={m.name} className="border-b border-[var(--border)]/60">
-                <td className="py-1">{m.name}</td>
-                <td>{formatMetric(m.value)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {model.cwv.hasMeasurement ? (
+          <>
+            <p className="mt-1 text-xs text-[var(--muted)]">
+              HAR page의 `_` 확장 필드·`_chromeUserTiming`에서 관측된 값만
+              표시합니다.
+            </p>
+            <table className="mt-3 w-full text-left text-sm">
+              <thead>
+                <tr className="border-b border-[var(--border)]">
+                  <th className="py-1">지표</th>
+                  <th>값</th>
+                  <th>출처</th>
+                </tr>
+              </thead>
+              <tbody>
+                {model.cwv.metrics
+                  .filter((m) => m.value.kind !== "missing")
+                  .map((m) => (
+                    <tr key={m.name} className="border-b border-[var(--border)]/60">
+                      <td className="py-1">{m.name}</td>
+                      <td>{formatMetric(m.value)}</td>
+                      <td className="max-w-[14rem] truncate text-xs text-[var(--muted)]">
+                        {m.path}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </>
+        ) : (
+          <p className="mt-2 text-sm text-[var(--muted)]">
+            이 HAR 회차에는 LCP/FCP/CLS 등 WPT·Chrome 확장 필드가 없습니다.
+            (예: `_chromeUserTiming.LargestContentfulPaint`) Fact-Only 원칙에
+            따라 값을 생성·추정하지 않습니다.
+          </p>
+        )}
       </Card>
 
       {model.document && (

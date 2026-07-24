@@ -2,7 +2,7 @@ import type { Entry, Har, Page } from "har-format";
 
 /** Timing or size value: measurable number, or missing sentinel. */
 export type MetricValue =
-  | { kind: "ms" | "bytes"; value: number }
+  | { kind: "ms" | "bytes" | "score"; value: number }
   | { kind: "missing"; reason: "minus_one" | "absent" };
 
 export type Evidence = {

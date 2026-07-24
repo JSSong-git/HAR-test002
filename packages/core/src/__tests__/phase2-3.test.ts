@@ -86,11 +86,40 @@ describe("diff + budget", () => {
 
   it("includes cwv appendix without coercing missing to 0", () => {
     const model = analyzeHar(har, { pageId: "page_1_0_1" });
+    expect(model.cwv.hasMeasurement).toBe(false);
     expect(model.cwv.metrics.length).toBeGreaterThan(0);
     for (const m of model.cwv.metrics) {
-      if (m.value.kind === "missing") {
-        expect(m.value).not.toEqual({ kind: "ms", value: 0 });
-      }
+      expect(m.value.kind).toBe("missing");
+      expect(m.value).not.toEqual({ kind: "ms", value: 0 });
     }
+  });
+});
+
+describe("cwv extraction shapes", () => {
+  it("reads flattened _chromeUserTiming.* and array timings", async () => {
+    const { extractCwvMetrics, hasAnyCwvMeasurement } = await import("../cwv");
+    const page = {
+      id: "p1",
+      startedDateTime: "2026-01-01T00:00:00.000Z",
+      title: "t",
+      pageTimings: { onLoad: 1000, onContentLoad: -1 },
+      "_chromeUserTiming.LargestContentfulPaint": 2100,
+      "_chromeUserTiming.CumulativeLayoutShift": 0.05,
+      _chromeUserTiming: [
+        { name: "firstContentfulPaint", time: 800 },
+        { name: "firstPaint", time: 750 },
+      ],
+      _TBT: 120,
+      _SpeedIndex: 1500,
+    };
+    const metrics = extractCwvMetrics(page);
+    expect(hasAnyCwvMeasurement(metrics)).toBe(true);
+    const byName = Object.fromEntries(metrics.map((m) => [m.name, m]));
+    expect(byName.LCP?.value).toEqual({ kind: "ms", value: 2100 });
+    expect(byName.FCP?.value).toEqual({ kind: "ms", value: 800 });
+    expect(byName.FP?.value).toEqual({ kind: "ms", value: 750 });
+    expect(byName.CLS?.value).toEqual({ kind: "score", value: 0.05 });
+    expect(byName.TBT?.value).toEqual({ kind: "ms", value: 120 });
+    expect(byName.SI?.value).toEqual({ kind: "ms", value: 1500 });
   });
 });

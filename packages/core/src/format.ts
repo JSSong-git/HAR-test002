@@ -32,6 +32,12 @@ export function formatMetric(metric: MetricValue): string {
   if (metric.kind === "ms") {
     return formatMs(metric.value);
   }
+  if (metric.kind === "score") {
+    const rounded = Math.round(metric.value * 1000) / 1000;
+    return rounded.toLocaleString("en-US", {
+      maximumFractionDigits: 3,
+    });
+  }
   return formatBytes(metric.value);
 }
 

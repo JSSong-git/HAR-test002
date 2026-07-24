@@ -42,7 +42,7 @@ export {
   type RuleContext,
 } from "./rules";
 export { sanitizeHarForExport, maskTextSecrets } from "./sanitizer";
-export { extractCwvMetrics, hasAnyCwvMeasurement } from "./cwv";
+export { extractCwvMetrics, hasAnyCwvMeasurement, measuredCwvMetrics } from "./cwv";
 export {
   diffAnalysisModels,
   renderDiffMarkdown,

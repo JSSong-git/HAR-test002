@@ -10,12 +10,18 @@ export function renderReportHtml(model: AnalysisModel): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  const cwvRows = model.cwv.metrics
-    .map(
-      (m) =>
-        `<tr><td>${m.name}</td><td>${formatMetric(m.value)}</td><td><code>${m.path}</code></td></tr>`,
-    )
-    .join("");
+  const measured = model.cwv.metrics.filter((m) => m.value.kind !== "missing");
+  const cwvBlock = model.cwv.hasMeasurement
+    ? `<table>
+    <thead><tr><th>지표</th><th>값</th><th>경로</th></tr></thead>
+    <tbody>${measured
+      .map(
+        (m) =>
+          `<tr><td>${m.name}</td><td>${formatMetric(m.value)}</td><td><code>${m.path}</code></td></tr>`,
+      )
+      .join("")}</tbody>
+  </table>`
+    : `<p>이 HAR 회차에는 LCP/FCP/CLS 등 WPT·Chrome 확장 필드가 없습니다. 값을 생성하지 않습니다.</p>`;
 
   return `<!DOCTYPE html>
 <html lang="ko">
@@ -41,10 +47,7 @@ export function renderReportHtml(model: AnalysisModel): string {
   <h1>웹 로딩 속도 분석 보고서</h1>
   <p class="meta">파일: ${model.fileName} · 회차: ${model.selectedPageId} · 생성: ${model.analyzedAt}</p>
   <h2>Core Web Vitals / WPT 확장 필드</h2>
-  <table>
-    <thead><tr><th>지표</th><th>값</th><th>경로</th></tr></thead>
-    <tbody>${cwvRows || "<tr><td colspan=3>측정 안 됨</td></tr>"}</tbody>
-  </table>
+  ${cwvBlock}
   <h2>마크다운 본문</h2>
   <pre>${escaped}</pre>
 </body>
